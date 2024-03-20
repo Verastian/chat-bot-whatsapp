@@ -1,5 +1,5 @@
-const fs = require("fs");;
-const myConsole = new console.Console(fs.createWriteStream(".logs.txt"))
+// const fs = require("fs");;
+// const myConsole = new console.Console(fs.createWriteStream(".logs.txt"))
 
 const verifyToken = (req, res) => {
     try {
@@ -32,12 +32,12 @@ const receivedMessage = (req, res) => {
         const text = GetTextUser(messages);
 
 
-        myConsole.log(text);
-        // myConsole.log(messageObject);
+        console.log(text);
+        // console.log(messageObject);
 
         res.send("EVENT_RECEIVED");
     } catch (error) {
-        myConsole.log(error)
+        console.log(error)
         res.send("EVENT_RECEIVED");
     }
 }
@@ -50,7 +50,7 @@ const GetTextUser = (messages) => {
     } else if (typeMessage === "interactive") {
         const interactiveObject = messages["interactive"];
         const typeInteractive = interactiveObject["type"];
-        myConsole.log(interactiveObject);
+        console.log(interactiveObject);
 
         if (typeInteractive === "button_reply") {
             text = (interactiveObject["button_reply"])["title"];
@@ -59,10 +59,10 @@ const GetTextUser = (messages) => {
             text = (interactiveObject["list_reply"])["title"];
 
         } else {
-            myConsole.log("sin mensaje")
+            console.log("sin mensaje")
         }
     } else {
-        myConsole.log("sin mensaje")
+        console.log("sin mensaje")
 
     }
     return text;
