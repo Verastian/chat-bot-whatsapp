@@ -24,15 +24,48 @@ const receivedMessage = (req, res) => {
         const entry = (req.body["entry"])[0];
         const changes = (entry["changes"])[0];
         const value = changes["value"];
-        const messageObject = value["messages"]
+        const messageObject = value["messages"];
 
-        myConsole.log(messageObject);
+        if (!messageObject) return
+
+        const messages = messageObject[0];
+        const text = GetTextUser(messages);
+
+
+        myConsole.log(text);
+        // myConsole.log(messageObject);
 
         res.send("EVENT_RECEIVED");
     } catch (error) {
-        myConsole(error)
+        myConsole.log(error)
         res.send("EVENT_RECEIVED");
     }
+}
+
+const GetTextUser = (messages) => {
+    const text = "";
+    const typeMessage = messages["type"];
+    if (typeMessage === "text") {
+        text = (messages["text"])["body"];
+    } else if (typeMessage === "interactive") {
+        const interactiveObject = messages["interactive"];
+        const typeInteractive = interactiveObject["type"];
+        myConsole.log(interactiveObject);
+
+        if (typeInteractive === "button_reply") {
+            text = (interactiveObject["button_reply"])["title"];
+
+        } else if (typeInteractive === "list_reply") {
+            text = (interactiveObject["list_reply"])["title"];
+
+        } else {
+            myConsole.log("sin mensaje")
+        }
+    } else {
+        myConsole.log("sin mensaje")
+
+    }
+    return text;
 }
 
 module.exports = {
