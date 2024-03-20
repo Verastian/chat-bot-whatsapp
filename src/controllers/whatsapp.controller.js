@@ -1,9 +1,11 @@
+const config = require("../config")
+const processMessage = require("../shared/processMessage");
 // const fs = require("fs");;
 // const myConsole = new console.Console(fs.createWriteStream(".logs.txt"))
 
 const verifyToken = (req, res) => {
     try {
-        const accessToken = "affadfsuf9af9sdf!sSJkijjkDKSJ8i9h9hsd9u767sd8SHuSI";
+        const accessToken = config.ACCESS_TOKEN;
         const token = req.query["hub.verify_token"];
         const challenge = req.query["hub.challenge"];
 
@@ -30,7 +32,9 @@ const receivedMessage = (req, res) => {
 
         const messages = messageObject[0];
         const text = GetTextUser(messages);
-
+        if (text != "") {
+            processMessage.Process(text, number);
+        }
 
         console.log(text);
         // console.log(messageObject);
