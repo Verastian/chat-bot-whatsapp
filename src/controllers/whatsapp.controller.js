@@ -43,7 +43,7 @@ const receivedMessage = (req, res) => {
 }
 
 const GetTextUser = (messages) => {
-    const text = "";
+    let text = "";
     const typeMessage = messages["type"];
     if (typeMessage === "text") {
         text = (messages["text"])["body"];
