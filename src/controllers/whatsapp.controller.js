@@ -28,19 +28,18 @@ const receivedMessage = (req, res) => {
         const value = changes["value"];
         const messageObject = value["messages"];
 
-        if (!messageObject) return
+        if (messageObject) {
+            const messages = messageObject[0];
+            const number = messages["from"];
 
-        const messages = messageObject[0];
-        const number = messages["from"];
+            const text = GetTextUser(messages);
 
-        const text = GetTextUser(messages);
+            if (text !== "") processMessage.Process(text, number);
 
-        if (text != "") {
-            processMessage.Process(text, number);
+            console.log('TEXT: ', text);
+            console.log('NUMBER: ', number);
         }
 
-        console.log(text);
-        // console.log(messageObject);
 
         res.send("EVENT_RECEIVED");
     } catch (error) {
@@ -57,6 +56,7 @@ const GetTextUser = (messages) => {
     } else if (typeMessage === "interactive") {
         const interactiveObject = messages["interactive"];
         const typeInteractive = interactiveObject["type"];
+
         console.log(interactiveObject);
 
         if (typeInteractive === "button_reply") {
